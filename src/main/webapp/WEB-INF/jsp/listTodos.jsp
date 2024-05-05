@@ -2,11 +2,11 @@
 <%@ include file="common/navbar.jspf" %>
 <div class="container my-2">
     <h1 class="text-3xl font-bold underline">
-        /list-todos
+        Your To-dos
     </h1>
-    <div>
-        Your Todos: ${todos}
-    </div>
+<%--    <div>--%>
+<%--        Your Todos: ${todos}--%>
+<%--    </div>--%>
     <hr>
     <div class="my-5">
         <table class="table">
@@ -29,8 +29,8 @@
                     <td>${todo.description}</td>
                     <td>${todo.targetDate}</td>
                     <td>${todo.done}</td>
-                    <td><a href="/delete-todo?id=${todo.id}" class="btn btn-warning">DELETE ${todo.id}</a></td>
-                    <td><a href="/update-todo?id=${todo.id}" class="btn btn-warning">UPDATE ${todo.id}</a></td>
+                    <td><a href="/delete-todo?id=${todo.id}" class="btn btn-warning">DELETE</a></td>
+                    <td><a href="/update-todo?id=${todo.id}" class="btn btn-light">UPDATE</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="my-2">
-        <a href="add-todo" class="btn btn-primary">Add Todo</a>
+        <a href="add-todo" class="btn btn-outline-warning">Add Todo</a>
     </div>
 <%--    <div class="position-relative">--%>
 <%--        <div class="position-absolute top-50 start-50 translate-middle">--%>

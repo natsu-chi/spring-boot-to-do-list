@@ -1,7 +1,7 @@
 <%@ include file="common/header.jspf" %>
 <%@ include file="common/navbar.jspf" %>
 <div class="container">
-    <h1>/add-todo</h1>
+    <h1>Add a to-do</h1>
     <div>
         <form:form method="post" modelAttribute="todo">
             <fieldset>
