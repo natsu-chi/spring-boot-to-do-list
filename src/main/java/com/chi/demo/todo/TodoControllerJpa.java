@@ -1,9 +1,5 @@
 package com.chi.demo.todo;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.function.Predicate;
-
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,15 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-//@Controller
+import java.time.LocalDate;
+import java.util.List;
+
+@Controller
 @SessionAttributes("username")
-public class TodoController {
+public class TodoControllerJpa {
 
     private TodoService todoService;
+    private TodoRepository todoRepository;
 
-    public TodoController() {
+    public TodoControllerJpa(TodoService todoService, TodoRepository todoRepository) {
         super();
-        this.todoService = new TodoService();
+        this.todoService = todoService;
+        this.todoRepository = todoRepository;
     }
 
     private String GetUsername(ModelMap model) {
@@ -30,7 +31,9 @@ public class TodoController {
 
     @RequestMapping("/list-todos")
     public String ListAllTodos(ModelMap model) {
-        List<Todo> todos = todoService.findByUsername("aaa");
+        String username = GetUsername(model);
+
+        List<Todo> todos = todoRepository.findByUsername(username);
         model.addAttribute("todos", todos);
         return "listTodos";
     }
@@ -42,14 +45,6 @@ public class TodoController {
         model.put("todo", todo);
         return "addTodo";
     }
-
-
-    // @RequestMapping(value="/add-todo", method=RequestMethod.POST)
-    // public String AddTodoPost(@RequestParam String description, ModelMap model) {
-    //     String username = (String)model.get("username");
-    //     todoService.addTodo(username, description, LocalDate.now(), false);
-    //     return "redirect:list-todos";
-    // }
 
     // 取代上面 @RequestParam 參數寫法，包裹成Todo傳入，減少程式碼
     @RequestMapping(value="/add-todo", method=RequestMethod.POST)
@@ -64,13 +59,13 @@ public class TodoController {
 
     @RequestMapping("delete-todo")
     public String DeleteTodo(@RequestParam int id, ModelMap model) {
-        todoService.deleteTodo(id);
+        todoRepository.deleteById(id);
         return "redirect:list-todos";
     }
 
     @RequestMapping(value="update-todo", method=RequestMethod.GET)
     public String GotoUpdateTodo(@RequestParam int id, ModelMap model) {
-        Todo todo = todoService.findById(id);
+        Todo todo = todoRepository.findById(id).get();
         model.addAttribute("todo", todo);
         return "updateTodo";
     }
@@ -83,7 +78,7 @@ public class TodoController {
 
         String username = GetUsername(model);;
         todo.setUsername(username);
-        todoService.updateTodo(todo);
+        todoRepository.save(todo);
         return "redirect:list-todos";
     }
 }

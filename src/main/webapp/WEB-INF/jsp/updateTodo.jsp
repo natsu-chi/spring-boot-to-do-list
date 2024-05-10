@@ -11,6 +11,9 @@
             <form:input type="hidden" path="id" />
             <br>
 
+            <form:input type="hidden" path="targetDate" />
+            <br>
+
             <form:input type="hidden" path="done" />
             <br>
 
