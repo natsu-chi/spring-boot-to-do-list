@@ -53,7 +53,8 @@ public class TodoControllerJpa {
             return "addTodo";
         }
         String username = GetUsername(model);
-        todoService.addTodo(username, todo.getDescription(), todo.getTargetDate(), false);
+        todo.setUsername(username);
+        todoRepository.save(todo);
         return "redirect:list-todos";
     }
 
